@@ -1,6 +1,7 @@
 # Architecture Overview
 
 This project implements a **Lambda Architecture** combining batch and streaming pipelines to achieve both accuracy and low-latency analytics.
+<img width="1366" height="772" alt="image" src="https://github.com/user-attachments/assets/ade55150-bdb1-4036-b480-84e283da52e1" />
 
 ### Why Lambda Architecture?
 
@@ -23,8 +24,109 @@ Cryptocurrency markets operate 24/7 with high volatility. A pure batch system wo
 ## Component Interaction
 
 ### Architecture Diagram
-<img width="1366" height="772" alt="image" src="https://github.com/user-attachments/assets/ade55150-bdb1-4036-b480-84e283da52e1" />
+```mermaid
+---
+config:
+  flowchart:
+    curve: stepBefore
+---
+flowchart LR
 
+%%=========================================
+%% DATA SOURCES
+%%=========================================
+subgraph DS["📡 Data Sources"]
+
+REST["Binance REST API<br/>Daily Klines"]
+
+WS["Binance WebSocket<br/>24hr Ticker"]
+
+end
+
+%%=========================================
+%% INGESTION
+%%=========================================
+subgraph ING["📥 Ingestion Layer"]
+
+PY["Python Fetcher"]
+
+KAFKA["Apache Kafka<br/>Message Broker"]
+
+end
+
+%%=========================================
+%% PROCESSING
+%%=========================================
+subgraph PROC["⚙️ Processing Layer"]
+
+AF["Apache Airflow<br/>Orchestrator"]
+
+SPARK["Spark Structured Streaming"]
+
+DBT["dbt<br/>Star Schema"]
+
+end
+
+%%=========================================
+%% STORAGE
+%%=========================================
+subgraph STORAGE["💾 Storage Layer"]
+
+S3["Amazon S3<br/>Raw Data Lake"]
+
+PGODS["PostgreSQL<br/>ODS Layer"]
+
+BQ["BigQuery<br/>Data Warehouse"]
+
+PGRT["PostgreSQL<br/>real_time_prices"]
+
+end
+
+%%=========================================
+%% SERVING
+%%=========================================
+subgraph SERVE["📊 Serving Layer"]
+
+PBI["Streamlit Dashboard"]
+
+DISCORD["Discord Alerts"]
+
+end
+
+%%=========================================
+%% Batch Pipeline
+%%=========================================
+
+REST -->|"Daily OHLCV"| PY
+
+AF -.->|"Trigger Batch"| PY
+
+PY -->|"Archive Raw JSON"| S3
+
+PY -->|"Load ODS"| PGODS
+
+PY -->|"Load DW"| BQ
+
+AF -.->|"Run dbt"| DBT
+
+BQ -->|"Transform"| DBT
+
+DBT -->|"Analytics"| PBI
+
+%%=========================================
+%% Streaming Pipeline
+%%=========================================
+
+WS -->|"24hr Ticker"| KAFKA
+
+KAFKA -->|"Consume"| SPARK
+
+SPARK -->|"Write Stream"| PGRT
+
+AF -.->|"Query every 5 min"| PGRT
+
+AF -->|"Send Alert"| DISCORD
+```
 ## Data Flow Summary
 
 ### Batch Pipeline (Daily)
