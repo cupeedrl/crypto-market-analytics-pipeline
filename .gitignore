@@ -1,0 +1,91 @@
+﻿# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Credentials
+gcp-service-account.json
+crypto-project-user_accessKeys.csv
+credentials.json
+service-account.json
+*.pem
+*.key
+*.p12
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Testing & Coverage
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Logs & Airflow
+logs/
+*.log
+airflow.cfg
+webserver_config.py
+
+# dbt
+dbt_project/crypto_dbt/logs/
+dbt_project/crypto_dbt/target/
+dbt_project/crypto_dbt/.user.yml
+dbt_project/.user.yml
+
+# Spark & Hadoop
+.docker/spark-checkpoints/
+spark-warehouse/
+metastore_db/
+
+# Data files
+data/
+*.parquet
+*.feather
+*.csv
+!sample*.csv
+!*.sample.csv
+*.db
+*.sqlite
+*.sqlite3
+
+# Jupyter
+.ipynb_checkpoints/
+
+
+# Docker
+docker-compose.override.yml
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build & Packaging
+build/
+dist/
+*.egg-info/
+
+# Temp files
+*.tmp
+*.temp
+*.bak
+
+# Cache
+.cache/

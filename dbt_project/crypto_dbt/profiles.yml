@@ -1,0 +1,12 @@
+﻿crypto_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: stoked-jigsaw-499318-k5
+      dataset: crypto_analytics
+      threads: 4
+      timeout_seconds: 300
+      location: asia-southeast1
+      keyfile: /opt/airflow/gcp-service-account.json

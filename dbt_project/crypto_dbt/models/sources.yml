@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: crypto_ods
+    database: stoked-jigsaw-499318-k5
+    schema: crypto_analytics
+    tables:
+      - name: ods_daily_metrics
+        description: "Raw crypto price data from Binance API"
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+          - name: coin_id
+            tests:
+              - not_null
+          - name: current_price
+            tests:
+              - not_null
+          - name: fetched_at
+            tests:
+              - not_null
