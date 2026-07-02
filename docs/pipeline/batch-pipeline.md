@@ -4,7 +4,6 @@
 
 The batch pipeline collects historical cryptocurrency market data from the Binance REST API once per day. It acts as the **batch layer** in the hybrid architecture, providing reliable historical data for analytics, reporting, and dimensional modeling.
 
-![Batch Pipeline](../images/batch-pipeline.png)
 
 ---
 
