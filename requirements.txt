@@ -7,7 +7,7 @@ boto3==1.28.40
 psycopg2-binary==2.9.9
 google-cloud-bigquery==3.11.4
 google-cloud-storage==2.10.0
-sqlalchemy==2.0.21
+sqlalchemy==1.4.54
 kafka-python==2.0.2
 websocket-client==1.6.3
 pyspark==3.5.0
