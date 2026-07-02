@@ -17,8 +17,6 @@ A production-grade hybrid data pipeline combining batch processing (Airflow + db
 
 ## Architecture
 
-![Architecture](docs/images/architecture.png)
-
 ### Overall System
 
 The system follows a Lambda Architecture pattern, combining batch and streaming pipelines for comprehensive data processing.
