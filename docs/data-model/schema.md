@@ -4,8 +4,6 @@
 
 The analytical data warehouse follows a **Star Schema** design to simplify reporting and improve query performance.
 
-![dbt Lineage](../images/dbt-lineage.png)
-
 ---
 
 ## Schema Design
