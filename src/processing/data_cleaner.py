@@ -20,8 +20,8 @@ class DataCleaner:
         # Loại bỏ duplicates
         df = df.drop_duplicates(subset=["symbol", "timestamp"], keep="last")
 
-        # Xử lý missing values
-        df["current_price"] = df["current_price"].fillna(method="ffill")
+        # Xử lý missing values - Fix deprecated method
+        df["current_price"] = df["current_price"].ffill()
         df["volume"] = df["volume"].fillna(0)
 
         # Loại bỏ outliers (giá = 0 hoặc âm)

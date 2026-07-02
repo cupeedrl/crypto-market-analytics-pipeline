@@ -64,90 +64,88 @@ class AnalyticsService:
             traceback.print_exc()
             return None
 
+    @staticmethod
+    def calculate_volatility_metrics(df):
+        """Calculate volatility and risk metrics"""
+        metrics = []
 
-@staticmethod
-def calculate_volatility_metrics(df):
-    """Calculate volatility and risk metrics"""
-    metrics = []
+        for symbol in df["symbol"].unique():
+            coin_df = df[df["symbol"] == symbol].copy()
 
-    for symbol in df["symbol"].unique():
-        coin_df = df[df["symbol"] == symbol].copy()
+            if len(coin_df) < 10:
+                continue
 
-        if len(coin_df) < 10:
-            continue
+            # Calculate daily returns (in percentage)
+            returns = coin_df["current_price"].pct_change().dropna() * 100
 
-        # Calculate daily returns (in percentage)
-        returns = coin_df["current_price"].pct_change().dropna() * 100
+            if len(returns) < 5:
+                continue
 
-        if len(returns) < 5:
-            continue
+            # Annualize (assuming hourly data, 24*365 = 8760 hours/year)
+            annual_factor = np.sqrt(8760)  # For hourly data
 
-        # Annualize (assuming hourly data, 24*365 = 8760 hours/year)
-        annual_factor = np.sqrt(8760)  # For hourly data
+            avg_return = returns.mean()
+            volatility = returns.std()
 
-        avg_return = returns.mean()
-        volatility = returns.std()
+            # Sharpe ratio (annualized, assuming risk-free rate = 0)
+            sharpe = (avg_return / volatility * annual_factor) if volatility != 0 else 0
 
-        # Sharpe ratio (annualized, assuming risk-free rate = 0)
-        sharpe = (avg_return / volatility * annual_factor) if volatility != 0 else 0
+            # Max drawdown
+            cummax = coin_df["current_price"].cummax()
+            drawdown = (cummax - coin_df["current_price"]) / cummax
+            max_dd = drawdown.max() * 100  # Convert to percentage
 
-        # Max drawdown
-        cummax = coin_df["current_price"].cummax()
-        drawdown = (cummax - coin_df["current_price"]) / cummax
-        max_dd = drawdown.max() * 100  # Convert to percentage
-
-        metrics.append(
-            {
-                "symbol": symbol,
-                "avg_return": avg_return,  # Already in percentage
-                "volatility": volatility,  # Already in percentage
-                "sharpe_ratio": sharpe,
-                "max_drawdown": max_dd,
-            }
-        )
-
-    return pd.DataFrame(metrics)
-
-
-@staticmethod
-def detect_anomalies(df, threshold=3.5):
-    """Detect anomalies using daily aggregated data"""
-    anomalies = []
-
-    # Aggregate by date and symbol
-    daily_data = (
-        df.groupby([df["processed_at"].dt.date, "symbol"])
-        .agg({"price_change_percent": ["mean", "std", "count"]})
-        .reset_index()
-    )
-
-    daily_data.columns = ["date", "symbol", "avg_change", "std_change", "count"]
-
-    # Filter out days with too little data
-    daily_data = daily_data[daily_data["count"] > 10]
-
-    # Calculate z-scores per symbol
-    for symbol in daily_data["symbol"].unique():
-        symbol_data = daily_data[daily_data["symbol"] == symbol].copy()
-
-        if len(symbol_data) < 10:
-            continue
-
-        # Calculate z-score
-        mean = symbol_data["avg_change"].mean()
-        std = symbol_data["avg_change"].std()
-
-        if std == 0:
-            continue
-
-        symbol_data["z_score"] = np.abs((symbol_data["avg_change"] - mean) / std)
-
-        # Filter anomalies
-        anomalies_df = symbol_data[symbol_data["z_score"] > threshold]
-
-        for _, row in anomalies_df.iterrows():
-            anomalies.append(
-                {"symbol": symbol, "date": row["date"], "z_score": row["z_score"]}
+            metrics.append(
+                {
+                    "symbol": symbol,
+                    "avg_return": avg_return,  # Already in percentage
+                    "volatility": volatility,  # Already in percentage
+                    "sharpe_ratio": sharpe,
+                    "max_drawdown": max_dd,
+                }
             )
 
-    return pd.DataFrame(anomalies) if anomalies else pd.DataFrame()
+        return pd.DataFrame(metrics)
+
+    @staticmethod
+    def detect_anomalies(df, threshold=3.5):
+        """Detect anomalies using daily aggregated data"""
+        anomalies = []
+
+        # Aggregate by date and symbol
+        daily_data = (
+            df.groupby([df["processed_at"].dt.date, "symbol"])
+            .agg({"price_change_percent": ["mean", "std", "count"]})
+            .reset_index()
+        )
+
+        daily_data.columns = ["date", "symbol", "avg_change", "std_change", "count"]
+
+        # Filter out days with too little data
+        daily_data = daily_data[daily_data["count"] > 10]
+
+        # Calculate z-scores per symbol
+        for symbol in daily_data["symbol"].unique():
+            symbol_data = daily_data[daily_data["symbol"] == symbol].copy()
+
+            if len(symbol_data) < 10:
+                continue
+
+            # Calculate z-score
+            mean = symbol_data["avg_change"].mean()
+            std = symbol_data["avg_change"].std()
+
+            if std == 0:
+                continue
+
+            symbol_data["z_score"] = np.abs((symbol_data["avg_change"] - mean) / std)
+
+            # Filter anomalies
+            anomalies_df = symbol_data[symbol_data["z_score"] > threshold]
+
+            for _, row in anomalies_df.iterrows():
+                anomalies.append(
+                    {"symbol": symbol, "date": row["date"], "z_score": row["z_score"]}
+                )
+
+        return pd.DataFrame(anomalies) if anomalies else pd.DataFrame()

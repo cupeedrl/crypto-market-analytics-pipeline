@@ -1,9 +1,11 @@
 import unittest
 import psycopg2
 import os
+from unittest import skipIf
 
 
 class TestIntegration(unittest.TestCase):
+    @skipIf(os.environ.get("CI") == "true", "Skip in CI - no database available")
     def test_postgres_connection(self):
         """Test kết nối PostgreSQL"""
         try:
@@ -22,6 +24,7 @@ class TestIntegration(unittest.TestCase):
         except Exception as e:
             self.fail(f"PostgreSQL connection failed: {e}")
 
+    @skipIf(os.environ.get("CI") == "true", "Skip in CI - no database available")
     def test_real_time_prices_table_exists(self):
         """Test bảng real_time_prices tồn tại"""
         conn = psycopg2.connect(

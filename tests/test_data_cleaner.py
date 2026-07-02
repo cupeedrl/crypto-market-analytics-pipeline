@@ -26,8 +26,8 @@ class TestDataCleaner(unittest.TestCase):
         """Test loại bỏ outliers"""
         df = pd.DataFrame(
             {
-                "symbol": ["BTCUSDT"],
-                "timestamp": ["2026-06-15"],
+                "symbol": ["BTCUSDT", "BTCUSDT"],  # Fix: thêm 2 rows
+                "timestamp": ["2026-06-15", "2026-06-16"],  # Fix: thêm 2 timestamps
                 "current_price": [0.0, 65000.0],  # 0 là outlier
                 "volume": [1000.0, 500.0],
             }
