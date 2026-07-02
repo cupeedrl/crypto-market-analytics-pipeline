@@ -1,11 +1,13 @@
 import streamlit as st
 from datetime import datetime
 
+
 def render_header():
     """Render professional header - NO external CSS"""
-    
+
     # Inline CSS only (no file loading)
-    st.markdown("""
+    st.markdown(
+        """
         <style>
         .header-container {
             background-color: #1F2937;
@@ -45,10 +47,13 @@ def render_header():
             background-color: #10B981;
         }
         </style>
-    """, unsafe_allow_html=True)
-    
+    """,
+        unsafe_allow_html=True,
+    )
+
     # Header content
-    st.markdown("""
+    st.markdown(
+        """
         <div class="header-container">
             <h1 class="header-title">Crypto Market Analytics Platform</h1>
             <p class="header-subtitle">Real-Time Data Engineering & Advanced Analytics</p>
@@ -71,4 +76,6 @@ def render_header():
                 </span>
             </div>
         </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )

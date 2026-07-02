@@ -1,8 +1,10 @@
 """
 Clean duplicate and invalid data from PostgreSQL
 """
+
 import sys
 import os
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import psycopg2
@@ -11,22 +13,24 @@ from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
+
 def get_connection():
     return psycopg2.connect(
         host=Config.POSTGRES_HOST,
         port=Config.POSTGRES_PORT,
         user=Config.POSTGRES_USER,
         password=Config.POSTGRES_PASSWORD,
-        database=Config.POSTGRES_DB
+        database=Config.POSTGRES_DB,
     )
+
 
 def clean_ods_daily_metrics():
     """Remove duplicate records from ods_daily_metrics"""
     print("Cleaning ods_daily_metrics...")
-    
+
     conn = get_connection()
     cursor = conn.cursor()
-    
+
     # Count duplicates before cleaning
     cursor.execute("""
         SELECT COUNT(*) FROM (
@@ -38,7 +42,7 @@ def clean_ods_daily_metrics():
     """)
     dup_count = cursor.fetchone()[0]
     print(f"Found {dup_count} duplicate groups in ods_daily_metrics")
-    
+
     # Delete duplicates, keep the latest record per coin per day
     cursor.execute("""
         DELETE FROM ods_daily_metrics
@@ -54,27 +58,28 @@ def clean_ods_daily_metrics():
             WHERE rn > 1
         )
     """)
-    
+
     deleted = cursor.rowcount
     conn.commit()
     cursor.close()
     conn.close()
-    
+
     print(f"Deleted {deleted} duplicate records from ods_daily_metrics")
     return deleted
+
 
 def clean_real_time_prices():
     """Remove exact duplicate records from real_time_prices"""
     print("\nCleaning real_time_prices...")
-    
+
     conn = get_connection()
     cursor = conn.cursor()
-    
+
     # Count total records
     cursor.execute("SELECT COUNT(*) FROM real_time_prices")
     total = cursor.fetchone()[0]
     print(f"Total records: {total:,}")
-    
+
     # Count exact duplicates (same symbol, price, timestamp)
     cursor.execute("""
         SELECT COUNT(*) FROM (
@@ -86,7 +91,7 @@ def clean_real_time_prices():
     """)
     dup_groups = cursor.fetchone()[0]
     print(f"Found {dup_groups} exact duplicate groups")
-    
+
     # Delete exact duplicates, keep one
     cursor.execute("""
         DELETE FROM real_time_prices
@@ -102,22 +107,23 @@ def clean_real_time_prices():
             WHERE rn > 1
         )
     """)
-    
+
     deleted = cursor.rowcount
     conn.commit()
     cursor.close()
     conn.close()
-    
+
     print(f"Deleted {deleted} duplicate records from real_time_prices")
     return deleted
+
 
 def clean_invalid_data():
     """Remove records with invalid prices (NULL or <= 0)"""
     print("\nCleaning invalid data...")
-    
+
     conn = get_connection()
     cursor = conn.cursor()
-    
+
     # Clean ods_daily_metrics
     cursor.execute("""
         DELETE FROM ods_daily_metrics
@@ -127,7 +133,7 @@ def clean_invalid_data():
     """)
     deleted_ods = cursor.rowcount
     conn.commit()
-    
+
     # Clean real_time_prices
     cursor.execute("""
         DELETE FROM real_time_prices
@@ -136,24 +142,25 @@ def clean_invalid_data():
     """)
     deleted_rt = cursor.rowcount
     conn.commit()
-    
+
     cursor.close()
     conn.close()
-    
+
     print(f"Deleted {deleted_ods} invalid records from ods_daily_metrics")
     print(f"Deleted {deleted_rt} invalid records from real_time_prices")
-    
+
     return deleted_ods, deleted_rt
+
 
 def show_stats():
     """Show data statistics after cleaning"""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("DATA STATISTICS AFTER CLEANING")
-    print("="*60)
-    
+    print("=" * 60)
+
     conn = get_connection()
     cursor = conn.cursor()
-    
+
     # ods_daily_metrics stats
     cursor.execute("""
         SELECT 
@@ -168,7 +175,7 @@ def show_stats():
     print(f"  Total records: {ods_stats[0]:,}")
     print(f"  Unique coins: {ods_stats[1]}")
     print(f"  Date range: {ods_stats[2]} to {ods_stats[3]}")
-    
+
     # real_time_prices stats
     cursor.execute("""
         SELECT 
@@ -183,25 +190,26 @@ def show_stats():
     print(f"  Total records: {rt_stats[0]:,}")
     print(f"  Unique symbols: {rt_stats[1]}")
     print(f"  Date range: {rt_stats[2]} to {rt_stats[3]}")
-    
+
     cursor.close()
     conn.close()
-    
-    print("="*60)
+
+    print("=" * 60)
+
 
 if __name__ == "__main__":
-    print("="*60)
+    print("=" * 60)
     print("DATA CLEANING SCRIPT")
-    print("="*60)
-    
+    print("=" * 60)
+
     # Clean duplicates
     clean_ods_daily_metrics()
     clean_real_time_prices()
-    
+
     # Clean invalid data
     clean_invalid_data()
-    
+
     # Show final stats
     show_stats()
-    
+
     print("\n Data cleaning complete!")

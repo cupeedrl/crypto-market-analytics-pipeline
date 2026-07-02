@@ -1,29 +1,36 @@
 import sys
 import os
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import streamlit as st
 from components.header import render_header
 from components.sidebar import render_sidebar
 from components.kpi_cards import render_kpi_cards
-from components.charts import render_correlation_heatmap, render_risk_analytics, render_anomaly_detection
+from components.charts import (
+    render_correlation_heatmap,
+    render_risk_analytics,
+    render_anomaly_detection,
+)
 from components.monitoring import render_monitoring
 from components.alerts import render_alerts
 from components.data_table import render_data_table
 from services.database import DatabaseService
 import warnings
-warnings.filterwarnings('ignore')
+
+warnings.filterwarnings("ignore")
 
 # Page config
 st.set_page_config(
     page_title="Crypto Analytics Pro",
     page_icon="",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded",
 )
 
 # Load global CSS
-st.markdown("""
+st.markdown(
+    """
     <style>
     /* Global styles */
     .stApp {
@@ -75,17 +82,20 @@ st.markdown("""
         display: none !important;
     }
     </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
+
 
 def main():
     """Main application"""
-    
+
     # Render header
     render_header()
-    
+
     # Render sidebar
     selected_coins, days, refresh_interval = render_sidebar()
-    
+
     # Load data
     with st.spinner("Loading data..."):
         try:
@@ -95,7 +105,7 @@ def main():
         except Exception as e:
             st.error(f"Error loading data: {e}")
             return
-    
+
     # Render components
     render_kpi_cards(df_latest, pipeline_stats)
     render_monitoring(pipeline_stats)
@@ -104,13 +114,17 @@ def main():
     render_risk_analytics(df_history)
     render_anomaly_detection(df_history)
     render_data_table(df_latest)
-    
+
     # Footer
-    st.markdown("""
+    st.markdown(
+        """
         <div style="text-align: center; color: #9CA3AF; padding: 24px 0; border-top: 1px solid #374151; margin-top: 24px;">
             Crypto Market Analytics Platform v1.0.0
         </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
+
 
 if __name__ == "__main__":
     main()

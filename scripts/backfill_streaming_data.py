@@ -37,7 +37,7 @@ def fetch_binance_klines(symbol, start_date, end_date, interval="1h"):
             "symbol": symbol,
             "interval": interval,
             "startTime": current_start,
-            "limit": 1000
+            "limit": 1000,
         }
 
         try:
@@ -60,15 +60,17 @@ def fetch_binance_klines(symbol, start_date, end_date, interval="1h"):
                 open_price = float(candle[1])
                 close_price = float(candle[4])
 
-                all_data.append({
-                    "symbol": symbol,
-                    "current_price": close_price,
-                    "price_change_percent": (
-                        (close_price - open_price) / open_price * 100
-                    ),
-                    "volume": float(candle[5]),
-                    "processed_at": datetime.fromtimestamp(candle[0] / 1000)
-                })
+                all_data.append(
+                    {
+                        "symbol": symbol,
+                        "current_price": close_price,
+                        "price_change_percent": (
+                            (close_price - open_price) / open_price * 100
+                        ),
+                        "volume": float(candle[5]),
+                        "processed_at": datetime.fromtimestamp(candle[0] / 1000),
+                    }
+                )
 
             current_start = data[-1][0] + 1
 
@@ -99,7 +101,7 @@ def backfill_all_coins(start_date, end_date):
         "LTCUSDT",
         "UNIUSDT",
         "ATOMUSDT",
-        "ETCUSDT"
+        "ETCUSDT",
     ]
 
     conn = psycopg2.connect(
@@ -107,7 +109,7 @@ def backfill_all_coins(start_date, end_date):
         port=Config.POSTGRES_PORT,
         user=Config.POSTGRES_USER,
         password=Config.POSTGRES_PASSWORD,
-        database=Config.POSTGRES_DB
+        database=Config.POSTGRES_DB,
     )
 
     cursor = conn.cursor()
@@ -121,12 +123,7 @@ def backfill_all_coins(start_date, end_date):
             print("=" * 60)
             print(f"Fetching {coin}...")
 
-            df = fetch_binance_klines(
-                coin,
-                start_date,
-                end_date,
-                interval="1h"
-            )
+            df = fetch_binance_klines(coin, start_date, end_date, interval="1h")
 
             if df.empty:
                 print(f"⚠ No data for {coin}")
@@ -138,7 +135,7 @@ def backfill_all_coins(start_date, end_date):
                     row["current_price"],
                     row["price_change_percent"],
                     row["volume"],
-                    row["processed_at"]
+                    row["processed_at"],
                 )
                 for _, row in df.iterrows()
             ]
@@ -158,7 +155,7 @@ def backfill_all_coins(start_date, end_date):
                 ON CONFLICT DO NOTHING
                 """,
                 rows,
-                page_size=1000
+                page_size=1000,
             )
 
             conn.commit()
@@ -186,7 +183,4 @@ def backfill_all_coins(start_date, end_date):
 if __name__ == "__main__":
 
     # Backfill from June 1 to June 25, 2026
-    backfill_all_coins(
-        "2026-06-01",
-        "2026-06-25"
-    )
+    backfill_all_coins("2026-06-01", "2026-06-25")

@@ -5,6 +5,7 @@ from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
+
 class PostgresLoader:
     def __init__(self):
         self.conn_params = {
@@ -12,7 +13,7 @@ class PostgresLoader:
             "port": Config.POSTGRES_PORT,
             "user": Config.POSTGRES_USER,
             "password": Config.POSTGRES_PASSWORD,
-            "database": Config.POSTGRES_DB
+            "database": Config.POSTGRES_DB,
         }
 
     def get_connection(self):
@@ -36,7 +37,7 @@ class PostgresLoader:
         """Upsert dimension coin table - idempotent"""
         if df.empty:
             return
-            
+
         query = """
             INSERT INTO dim_coin (coin_id, coin_name, symbol)
             VALUES %s
@@ -46,8 +47,8 @@ class PostgresLoader:
                 symbol = EXCLUDED.symbol,
                 updated_at = CURRENT_TIMESTAMP;
         """
-        data = [tuple(x) for x in df[['coin_id', 'coin_name', 'symbol']].values]
-        
+        data = [tuple(x) for x in df[["coin_id", "coin_name", "symbol"]].values]
+
         try:
             with self.get_connection() as conn:
                 with conn.cursor() as cur:
@@ -63,24 +64,28 @@ class PostgresLoader:
         if df.empty:
             logger.info("DataFrame is empty. Skipping insert.")
             return
-            
+
         try:
             conn = self.get_connection()
             cur = conn.cursor()
-            
+
             # Đảm bảo DataFrame có đúng các cột cần thiết theo schema thực tế
             required_columns = [
-                'coin_id', 'fetched_at', 'current_price', 
-                'market_cap', 'total_volume', 
-                'price_change_24h', 'price_change_percent_24h'
+                "coin_id",
+                "fetched_at",
+                "current_price",
+                "market_cap",
+                "total_volume",
+                "price_change_24h",
+                "price_change_percent_24h",
             ]
-            
+
             # Kiểm tra và lọc chỉ lấy các cột cần thiết
             df_filtered = df[required_columns].copy()
-            
+
             # Convert DataFrame to list of tuples
             data = [tuple(row) for row in df_filtered.to_numpy()]
-            
+
             # UPSERT query: INSERT ... ON CONFLICT DO UPDATE
             # Dùng trực tiếp columns thay vì constraint name
             query = """
@@ -94,12 +99,12 @@ class PostgresLoader:
                     price_change_24h = EXCLUDED.price_change_24h,
                     price_change_percent_24h = EXCLUDED.price_change_percent_24h
             """
-            
+
             execute_values(cur, query, data)
             conn.commit()
-            
+
             logger.info(f"Upserted {len(df)} records into ods_daily_metrics.")
-            
+
         except Exception as e:
             logger.error(f"Failed to upsert ods_daily_metrics: {e}")
             raise

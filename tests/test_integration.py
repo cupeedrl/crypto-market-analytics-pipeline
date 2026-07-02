@@ -2,16 +2,17 @@ import unittest
 import psycopg2
 import os
 
+
 class TestIntegration(unittest.TestCase):
     def test_postgres_connection(self):
         """Test kết nối PostgreSQL"""
         try:
             conn = psycopg2.connect(
-                host='localhost',
-                port='5433',
-                database='crypto_ods',
-                user='admin',
-                password='admin123'
+                host="localhost",
+                port="5433",
+                database="crypto_ods",
+                user="admin",
+                password="admin123",
             )
             cursor = conn.cursor()
             cursor.execute("SELECT 1")
@@ -20,15 +21,15 @@ class TestIntegration(unittest.TestCase):
             self.assertTrue(True)
         except Exception as e:
             self.fail(f"PostgreSQL connection failed: {e}")
-    
+
     def test_real_time_prices_table_exists(self):
         """Test bảng real_time_prices tồn tại"""
         conn = psycopg2.connect(
-            host='localhost',
-            port='5433',
-            database='crypto_ods',
-            user='admin',
-            password='admin123'
+            host="localhost",
+            port="5433",
+            database="crypto_ods",
+            user="admin",
+            password="admin123",
         )
         cursor = conn.cursor()
         cursor.execute("""
@@ -42,5 +43,6 @@ class TestIntegration(unittest.TestCase):
         conn.close()
         self.assertTrue(exists)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

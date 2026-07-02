@@ -1,11 +1,12 @@
 import streamlit as st
 from datetime import datetime, timedelta
 
+
 def render_alerts():
     """Render professional alerts panel"""
-    
+
     st.markdown('<h2 class="section-title">Recent Alerts</h2>', unsafe_allow_html=True)
-    
+
     # Sample alerts data
     alerts = [
         {
@@ -14,7 +15,7 @@ def render_alerts():
             "time": "2 min ago",
             "coin": "BTC",
             "message": "Price dropped 5.2% in last hour",
-            "status": "Active"
+            "status": "Active",
         },
         {
             "severity": "warning",
@@ -22,7 +23,7 @@ def render_alerts():
             "time": "15 min ago",
             "coin": "ETH",
             "message": "Volume spike detected (+340%)",
-            "status": "Resolved"
+            "status": "Resolved",
         },
         {
             "severity": "info",
@@ -30,7 +31,7 @@ def render_alerts():
             "time": "1 hour ago",
             "coin": "BNB",
             "message": "Daily report generated successfully",
-            "status": "Completed"
+            "status": "Completed",
         },
         {
             "severity": "warning",
@@ -38,7 +39,7 @@ def render_alerts():
             "time": "2 hours ago",
             "coin": "SOL",
             "message": "Anomaly detected: Z-score 3.2",
-            "status": "Investigating"
+            "status": "Investigating",
         },
         {
             "severity": "info",
@@ -46,12 +47,13 @@ def render_alerts():
             "time": "3 hours ago",
             "coin": "XRP",
             "message": "Pipeline batch completed",
-            "status": "Completed"
-        }
+            "status": "Completed",
+        },
     ]
-    
+
     for alert in alerts:
-        st.markdown(f"""
+        st.markdown(
+            f"""
             <div class="alert-item">
                 <span class="alert-severity {alert['severity']}">{alert['severity_label']}</span>
                 <span class="alert-message">
@@ -59,4 +61,6 @@ def render_alerts():
                 </span>
                 <span class="alert-time">{alert['time']}</span>
             </div>
-        """, unsafe_allow_html=True)
+        """,
+            unsafe_allow_html=True,
+        )
