@@ -4,7 +4,6 @@
 
 The streaming pipeline delivers real-time cryptocurrency price updates for monitoring, analytics, and alerting. It continuously consumes Binance WebSocket events, processes them with Spark Structured Streaming, and stores aggregated results in PostgreSQL.
 
-![Streaming Pipeline](../images/streaming-pipeline.png)
 
 ---
 
