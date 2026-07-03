@@ -14,6 +14,22 @@ The DAG uses TaskGroups to organize related tasks:
 
 This improves visualization and maintainability.
 
+## Orchestration
+
+**Tasks with TaskGroups:**
+
+| TaskGroup | Tasks | Purpose |
+|-----------|-------|---------|
+| data_ingestion | fetch_data, upload_to_s3 | Fetch from Binance, store raw data |
+| data_storage | load_to_postgres, load_to_bigquery | Load to databases |
+| (standalone) | dbt_run | Transform with dbt |
+
+**Production Features:**
+- **Retries**: 3-5 attempts per task
+- **SLA**: 1-hour completion target
+- **Timeout**: 30 minutes per task
+- **Alerts**: Discord notifications on success/failure
+- **Logging**: Structured logs with performance metrics
 ---
 
 ## Data Flow
