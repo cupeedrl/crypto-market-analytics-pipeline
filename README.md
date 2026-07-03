@@ -53,13 +53,22 @@ See [Architecture Documentation](docs/architecture/overview.md)
 - Automated Price Alerts
 - Dockerized Deployment
 - CI/CD with GitHub Actions
-- 
+  
 ## Production Features
-- **TaskGroups**: Logical grouping of related tasks (data_ingestion, data_storage)
-- **Alerting**: Discord notifications on DAG success/failure
-- **Structured Logging**: Performance metrics and error tracking
-- **SLA**: 1-hour completion target with automatic alerts
-- **Retry Logic**: 3-5 automatic retries with exponential backoff****
+### Architecture
+- **TaskGroups**: Logical grouping (data_ingestion, data_storage)
+- **Retry Logic**: 3-5 automatic retries with exponential backoff
+- **SLA Monitoring**: 1-hour completion target with alerts
+
+### Observability
+- **Discord Alerts**: Real-time notifications on success/failure
+- **Structured Logging**: Performance metrics & error tracking
+- **Pipeline Health**: Real-time monitoring dashboard
+
+### Reliability
+- **Idempotent Operations**: Safe to retry without duplicates
+- **Error Handling**: Graceful degradation with comprehensive logging
+- **Timeout Protection**: 30-minute task timeout
 ## Demo
 
 ### Architecture Overview
@@ -229,8 +238,8 @@ python scripts/test_price_monitor.py
 ```
 
   
-### Author: 
-🔗 GitHub: https://github.com/cupeedrl
-📧 Gmail: cqdatt41@gmail.com
-💼 LinkedIn: https://www.linkedin.com/in/dat-chu-quoc-583599387/
-📄 MIT License - Feel free to use for learning!
+### Author: Dat Chu Quoc
+🔗 GitHub: https://github.com/cupeedrl  
+📧 Gmail: cqdatt41@gmail.com  
+💼 LinkedIn: https://www.linkedin.com/in/dat-chu-quoc-583599387/  
+📄 MIT License - Feel free to use for learning!  
