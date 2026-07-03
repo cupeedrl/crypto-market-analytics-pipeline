@@ -2,7 +2,9 @@ import streamlit as st
 import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.append(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+)
 
 from services.database import DatabaseService
 
@@ -13,16 +15,28 @@ def get_available_coins():
     try:
         df = DatabaseService.get_latest_prices()
         if df is not None and not df.empty:
-            coins = sorted(df['symbol'].unique().tolist())
+            coins = sorted(df["symbol"].unique().tolist())
             return coins
     except Exception as e:
         st.warning(f"Could not fetch coins from database: {e}")
-    
+
     # Fallback list if database query fails
     return [
-        "BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "XRPUSDT",
-        "ADAUSDT", "DOGEUSDT", "DOTUSDT", "AVAXUSDT", "POLUSDT",
-        "LINKUSDT", "LTCUSDT", "UNIUSDT", "ATOMUSDT", "ETCUSDT"
+        "BTCUSDT",
+        "ETHUSDT",
+        "BNBUSDT",
+        "SOLUSDT",
+        "XRPUSDT",
+        "ADAUSDT",
+        "DOGEUSDT",
+        "DOTUSDT",
+        "AVAXUSDT",
+        "POLUSDT",
+        "LINKUSDT",
+        "LTCUSDT",
+        "UNIUSDT",
+        "ATOMUSDT",
+        "ETCUSDT",
     ]
 
 
@@ -35,11 +49,13 @@ def render_sidebar():
         # Coin selector - Dynamic from database
         st.markdown("#### Coin Selection")
         available_coins = get_available_coins()
-        
+
         selected_coins = st.multiselect(
             "Select coins",
             options=available_coins,
-            default=available_coins[:3] if len(available_coins) >= 3 else available_coins,
+            default=(
+                available_coins[:3] if len(available_coins) >= 3 else available_coins
+            ),
         )
 
         st.markdown("---")

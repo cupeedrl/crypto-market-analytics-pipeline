@@ -11,7 +11,7 @@ def check_postgres():
             port="5433",
             user="admin",
             password="admin123",
-            database="crypto_ods"
+            database="crypto_ods",
         )
         cursor = conn.cursor()
         cursor.execute("SELECT COUNT(*) FROM real_time_prices")
@@ -81,12 +81,7 @@ if __name__ == "__main__":
     print("PRODUCTION FEATURES VERIFICATION")
     print("=" * 60)
 
-    results = [
-        check_airflow(),
-        check_dashboard(),
-        check_postgres(),
-        check_bigquery()
-    ]
+    results = [check_airflow(), check_dashboard(), check_postgres(), check_bigquery()]
 
     print("=" * 60)
 

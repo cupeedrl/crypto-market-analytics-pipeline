@@ -25,7 +25,7 @@ def fetch_binance_klines(symbol, start_date, end_date, interval="1h"):
             "symbol": symbol.upper(),
             "interval": interval,
             "startTime": current_start,
-            "limit": 1000
+            "limit": 1000,
         }
 
         try:
@@ -46,13 +46,17 @@ def fetch_binance_klines(symbol, start_date, end_date, interval="1h"):
                 open_price = float(candle[1])
                 close_price = float(candle[4])
 
-                all_data.append({
-                    "symbol": symbol.upper(),
-                    "current_price": close_price,
-                    "price_change_percent": ((close_price - open_price) / open_price * 100),
-                    "volume": float(candle[5]),
-                    "processed_at": datetime.fromtimestamp(candle[0] / 1000)
-                })
+                all_data.append(
+                    {
+                        "symbol": symbol.upper(),
+                        "current_price": close_price,
+                        "price_change_percent": (
+                            (close_price - open_price) / open_price * 100
+                        ),
+                        "volume": float(candle[5]),
+                        "processed_at": datetime.fromtimestamp(candle[0] / 1000),
+                    }
+                )
 
             current_start = data[-1][0] + 1
             time.sleep(0.2)
@@ -71,7 +75,7 @@ def backfill_polusdt(start_date, end_date):
         port=Config.POSTGRES_PORT,
         user=Config.POSTGRES_USER,
         password=Config.POSTGRES_PASSWORD,
-        database=Config.POSTGRES_DB
+        database=Config.POSTGRES_DB,
     )
     cursor = conn.cursor()
 
@@ -83,8 +87,13 @@ def backfill_polusdt(start_date, end_date):
         return
 
     rows = [
-        (row["symbol"], row["current_price"], row["price_change_percent"], 
-         row["volume"], row["processed_at"])
+        (
+            row["symbol"],
+            row["current_price"],
+            row["price_change_percent"],
+            row["volume"],
+            row["processed_at"],
+        )
         for _, row in df.iterrows()
     ]
 
@@ -94,7 +103,7 @@ def backfill_polusdt(start_date, end_date):
            (symbol, current_price, price_change_percent, volume, processed_at)
            VALUES %s ON CONFLICT DO NOTHING""",
         rows,
-        page_size=1000
+        page_size=1000,
     )
 
     conn.commit()

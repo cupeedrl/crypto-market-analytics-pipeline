@@ -1,11 +1,12 @@
 from google.cloud import bigquery
 import os
 
+
 def cleanup_duplicates():
-    client = bigquery.Client(project='stoked-jigsaw-499318-k5')
-    dataset_id = 'crypto_analytics'
+    client = bigquery.Client(project="stoked-jigsaw-499318-k5")
+    dataset_id = "crypto_analytics"
     table_id = f"{client.project}.{dataset_id}.ods_daily_metrics"
-    
+
     # Tìm và xóa duplicates (giữ bản mới nhất)
     cleanup_query = f"""
         DELETE FROM `{table_id}`
@@ -22,12 +23,12 @@ def cleanup_duplicates():
             WHERE rn > 1
         )
     """
-    
+
     print("Deleting duplicates...")
     query_job = client.query(cleanup_query)
     query_job.result()
     print(f"Deleted {query_job.num_dml_affected_rows} duplicate rows")
-    
+
     # Verify
     verify_query = f"""
         SELECT 
@@ -38,6 +39,7 @@ def cleanup_duplicates():
     results = client.query(verify_query).result()
     for row in results:
         print(f"Total rows: {row.total_rows}, Unique records: {row.unique_records}")
+
 
 if __name__ == "__main__":
     cleanup_duplicates()

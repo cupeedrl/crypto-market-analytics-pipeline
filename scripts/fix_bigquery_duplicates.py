@@ -1,6 +1,6 @@
 from google.cloud import bigquery
 
-client = bigquery.Client(project='stoked-jigsaw-499318-k5')
+client = bigquery.Client(project="stoked-jigsaw-499318-k5")
 
 # Query để tìm duplicates
 query = """
