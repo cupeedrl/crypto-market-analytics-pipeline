@@ -53,7 +53,13 @@ See [Architecture Documentation](docs/architecture/overview.md)
 - Automated Price Alerts
 - Dockerized Deployment
 - CI/CD with GitHub Actions
-
+- 
+## Production Features
+- **TaskGroups**: Logical grouping of related tasks (data_ingestion, data_storage)
+- **Alerting**: Discord notifications on DAG success/failure
+- **Structured Logging**: Performance metrics and error tracking
+- **SLA**: 1-hour completion target with automatic alerts
+- **Retry Logic**: 3-5 automatic retries with exponential backoff****
 ## Demo
 
 ### Architecture Overview
@@ -81,11 +87,11 @@ See [Architecture Documentation](docs/architecture/overview.md)
 
 ### Correlation Analysis
 ![Correlation](docs/images/correlation.png)
-*30-day price correlation matrix for 14 cryptocurrencies*
+*30-day price correlation matrix for 15 cryptocurrencies*
 
 ### Anomaly Detection
 ![Anomaly](docs/images/anomaly.png)
-*Z-score based anomaly detection (threshold: 2.5)*
+*Z-score based anomaly detection (threshold: 3.5)*
 
 ## Tech Stack
 
@@ -221,6 +227,8 @@ pytest tests/test_integration.py -v
 python scripts/test_webhook.py
 python scripts/test_price_monitor.py
 ```
+
+  
 ### Author: 
 🔗 GitHub: https://github.com/cupeedrl
 📧 Gmail: cqdatt41@gmail.com
