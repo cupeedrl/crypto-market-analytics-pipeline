@@ -1,7 +1,8 @@
 # Architecture Overview
 
 This project implements a **Lambda Architecture** combining batch and streaming pipelines to achieve both accuracy and low-latency analytics.
-<img width="1366" height="772" alt="image" src="https://github.com/user-attachments/assets/ade55150-bdb1-4036-b480-84e283da52e1" />
+
+![Architecture Diagram](../images/architecture.png)
 
 ### Why Lambda Architecture?
 
