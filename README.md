@@ -75,11 +75,12 @@ See [Architecture Documentation](docs/architecture/overview.md)
 ![Architecture](docs/images/architecture.png)
 
 ### Dashboard Overview
-![Dashboard](docs/images/dashboard.png)
+![Dashboard](docs/images/dashboard-overview.png)
 *Real-time KPIs: BTC/ETH prices, volume, market trends, pipeline health*
 
 ### Airflow DAGs
-![Airflow](docs/images/airflow.png)
+![Airflow](docs/images/crypto_price_tracking_batch.png)
+![Airflow](docs/images/crypto_price_alerts.png)
 *Batch and streaming pipeline orchestration*
 
 ### Discord Bot
@@ -91,15 +92,15 @@ See [Architecture Documentation](docs/architecture/overview.md)
 *Automated alerts when price changes >5% within 1 hour*
 
 ### Risk Analytics
-![Risk](docs/images/risk.png)
+![Risk](docs/images/dashboard-risk.png)
 *Volatility vs Return scatter plot with Sharpe ratio ranking*
 
 ### Correlation Analysis
-![Correlation](docs/images/correlation.png)
+![Correlation](docs/images/dashboard-correlation.png)
 *30-day price correlation matrix for 15 cryptocurrencies*
 
 ### Anomaly Detection
-![Anomaly](docs/images/anomaly.png)
+![Anomaly](docs/images/dashboard-anomaly.png)
 *Z-score based anomaly detection (threshold: 3.5)*
 
 ## Tech Stack
