@@ -33,7 +33,7 @@ class BinanceWSProducer:
             "dogeusdt",
             "dotusdt",
             "avaxusdt",
-            "maticusdt",
+            "polusdt",
             "linkusdt",
             "ltcusdt",
             "uniusdt",

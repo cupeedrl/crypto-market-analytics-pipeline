@@ -85,7 +85,7 @@ services:
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
       - ./dbt_project:/opt/airflow/dbt_project
-      - ${GOOGLE_APPLICATION_CREDENTIALS:-./gcp-service-account.json}:/opt/airflow/gcp-service-account.json:ro
+      - ./gcp-service-account.json:/opt/airflow/gcp-service-account.json:ro
     command: webserver
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
@@ -125,7 +125,7 @@ services:
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
       - ./dbt_project:/opt/airflow/dbt_project
-      - ${GOOGLE_APPLICATION_CREDENTIALS:-./gcp-service-account.json}:/opt/airflow/gcp-service-account.json:ro
+      - ./gcp-service-account.json:/opt/airflow/gcp-service-account.json:ro
     command: scheduler
 
   spark-consumer:

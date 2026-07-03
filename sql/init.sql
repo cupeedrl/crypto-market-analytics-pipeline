@@ -233,7 +233,6 @@ BEGIN
 END;
 $$;
 
-CREATE DATABASE airflow_db; 
 -- EXAMPLE TRANSACTION
 
 /*

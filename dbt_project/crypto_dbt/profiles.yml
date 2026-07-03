@@ -9,4 +9,4 @@
       threads: 4
       timeout_seconds: 300
       location: asia-southeast1
-      keyfile: /opt/airflow/gcp-service-account.json
+      keyfile: /opt/airflow/gcp-service-account.json  # ← Hardcode absolute path

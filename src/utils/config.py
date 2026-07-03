@@ -40,3 +40,8 @@ class Config:
     DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
     DISCORD_GUILD_ID = os.getenv("DISCORD_GUILD_ID")
     DISCORD_CHANNEL_ID = os.getenv("DISCORD_CHANNEL_ID")
+
+    # SLA Configuration
+    DEFAULT_SLA_HOURS = int(os.getenv("DEFAULT_SLA_HOURS", "1"))
+    FETCH_TIMEOUT_SECONDS = int(os.getenv("FETCH_TIMEOUT_SECONDS", "300"))
+    LOAD_TIMEOUT_SECONDS = int(os.getenv("LOAD_TIMEOUT_SECONDS", "600"))
