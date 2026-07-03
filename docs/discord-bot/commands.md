@@ -4,9 +4,7 @@
 
 The Discord bot provides an interactive interface for users to query real-time market data and manage alert subscriptions directly within Discord.
 
-<img width="1913" height="497" alt="image" src="https://github.com/user-attachments/assets/24a991a7-990d-47de-8eba-3c505093cb02" />
-<img width="1851" height="880" alt="image" src="https://github.com/user-attachments/assets/d28396c2-123e-455f-94dc-7b3a06803030" />
-
+![Discord Bot](../images/discord_bot.png)
 
 ## Command Reference
 
