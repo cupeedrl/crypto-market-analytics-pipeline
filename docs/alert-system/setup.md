@@ -4,7 +4,7 @@
 
 The alert system continuously monitors real-time cryptocurrency prices and automatically sends Discord notifications when significant market movements are detected.
 
-<img width="1919" height="1036" alt="image" src="https://github.com/user-attachments/assets/f8cb4523-f924-4ca0-8b77-9b0e7b35fa3a" />
+![Alert System](../images/discord_alert.png)
 
 
 ---
