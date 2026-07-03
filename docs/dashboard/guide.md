@@ -3,17 +3,23 @@
 ## Overview
 
 The dashboard provides a unified interface for monitoring real-time cryptocurrency markets and pipeline health. It is built with Streamlit and connects directly to PostgreSQL for live analytics.
-<img width="1918" height="945" alt="Screenshot 2026-07-02 225914" src="https://github.com/user-attachments/assets/5b3d6519-014d-4479-9ca7-dbbf2304ee34" />
 
-<img width="1919" height="950" alt="Screenshot 2026-07-02 225936" src="https://github.com/user-attachments/assets/6b81c3ea-1209-4a17-b7d9-15286a9caac0" />
+![Dashboard Overview](../images/dashboard-overview.png)
 
-<img width="1919" height="998" alt="image" src="https://github.com/user-attachments/assets/9e8ad91c-19f8-4985-b155-8ab7b42e6343" />
+### Correlation Heatmap
+![Dashboard Correlation](../images/dashboard-correlation.png)
 
-<img width="1919" height="953" alt="image" src="https://github.com/user-attachments/assets/0f55b9b6-432a-47a0-b727-9bb7802f6698" />
+### Risk Analytics
+![Dashboard Risk](../images/dashboard-risk.png)
 
+### Anomaly Detection
+![Dashboard Anomaly](../images/dashboard-anomaly.png)
+
+### Pipeline Monitoring
+![Dashboard Monitoring](../images/dashboard-monitoring.png)
 ---
-## UI/UX Design Principles
 
+## UI/UX Design Principles
 ### Inspiration
 
 **Grafana** and **Datadog** inspired the dashboard design:
