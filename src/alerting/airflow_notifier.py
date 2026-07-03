@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, Any
+from typing import Any, Dict
 
 import requests
 
@@ -51,9 +51,7 @@ def send_failure_alert(context: Dict[str, Any]) -> None:
                         "inline": False,
                     },
                 ],
-                "footer": {
-                    "text": "Crypto Analytics Pipeline"
-                },
+                "footer": {"text": "Crypto Analytics Pipeline"},
             }
         ]
     }
@@ -92,9 +90,7 @@ def send_success_alert(context: Dict[str, Any]) -> None:
                         "inline": True,
                     }
                 ],
-                "footer": {
-                    "text": "Crypto Analytics Pipeline"
-                },
+                "footer": {"text": "Crypto Analytics Pipeline"},
             }
         ]
     }
