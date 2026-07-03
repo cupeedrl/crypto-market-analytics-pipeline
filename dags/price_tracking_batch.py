@@ -30,8 +30,6 @@ default_args = {
     "retry_delay": timedelta(minutes=5),
     "sla": timedelta(hours=1),
     "execution_timeout": timedelta(minutes=30),
-    "on_failure_callback": send_failure_alert,
-    "on_success_callback": send_success_alert,
 }
 
 
@@ -172,6 +170,8 @@ with DAG(
     catchup=False,
     max_active_runs=1,
     max_active_tasks=4,
+    on_failure_callback=send_failure_alert,
+    on_success_callback=send_success_alert,
     tags=["crypto", "batch", "production", "end-to-end"],
 ) as dag:
 
