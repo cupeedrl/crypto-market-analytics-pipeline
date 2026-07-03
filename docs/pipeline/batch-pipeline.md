@@ -4,6 +4,15 @@
 
 The batch pipeline collects historical cryptocurrency market data from the Binance REST API once per day. It acts as the **batch layer** in the hybrid architecture, providing reliable historical data for analytics, reporting, and dimensional modeling.
 
+## TaskGroup Architecture
+
+The DAG uses TaskGroups to organize related tasks:
+
+- **data_ingestion**: fetch_data → upload_to_s3
+- **data_storage**: load_to_postgres → load_to_bigquery
+- **dbt_run**: Standalone transformation task
+
+This improves visualization and maintainability.
 
 ---
 
