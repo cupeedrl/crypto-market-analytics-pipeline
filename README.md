@@ -76,8 +76,7 @@ See [Architecture Documentation](docs/architecture/overview.md)
 
 ### Dashboard Overview
 ![Dashboard](docs/images/dashboard-overview.png)
-*Real-time KPIs: BTC/ETH prices, volume, market trends, pipeline health*
-
+Real-time crypto analytics with **451 records across 33 days** (June 1 - July 5, 2026): prices, volume, market trends, pipeline health
 ### Airflow DAGs
 ![Airflow](docs/images/crypto_price_tracking_batch.png)
 ![Airflow](docs/images/crypto_price_alerts.png)
@@ -93,15 +92,17 @@ See [Architecture Documentation](docs/architecture/overview.md)
 
 ### Risk Analytics
 ![Risk](docs/images/dashboard-risk.png)
-*Volatility vs Return scatter plot with Sharpe ratio ranking*
+*Volatility, Sharpe ratio, and Value-at-Risk calculations based on comprehensive historical dataset.*
 
 ### Correlation Analysis
 ![Correlation](docs/images/dashboard-correlation.png)
-*30-day price correlation matrix for 15 cryptocurrencies*
+*15-18 coin correlation matrix computed from **33 days of historical data**, enabling dynamic filtering and trend analysis.*
 
 ### Anomaly Detection
 ![Anomaly](docs/images/dashboard-anomaly.png)
 *Z-score based anomaly detection (threshold: 3.5)*
+
+
 
 ## Tech Stack
 
