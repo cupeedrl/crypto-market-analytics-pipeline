@@ -9,4 +9,4 @@
       threads: 4
       timeout_seconds: 300
       location: asia-southeast1
-      keyfile: /opt/airflow/gcp-service-account.json  # ← Hardcode absolute path
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS', '/opt/airflow/gcp-service-account.json') }}"

@@ -26,6 +26,6 @@ from {{ ref('stg_crypto_prices') }} m
 left join {{ ref('dim_coin') }} d on m.coin_id = d.coin_id
 where m.is_valid_price = true and m.is_valid_volume = true
 
-{% if is_incremental %}
-  and m.fetched_at > (select max(fetched_at) from {{ this }})
+{% if is_incremental() %}
+  and cast(m.fetched_at as timestamp) > (select max(fetched_at) from {{ this }})
 {% endif %}
